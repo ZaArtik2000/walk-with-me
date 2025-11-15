@@ -8,14 +8,18 @@ import {
   Fade,
   Alert,
   Box,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
+import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import { isWithinInterval, isSameDay } from "date-fns";
+import { QuestionTooltip } from "./QuestionTooltip";
 
 function SchedulerView({
   rangeStart,
@@ -60,7 +64,12 @@ function SchedulerView({
           spacing={4}
           sx={{ mt: 3 }}
         >
-          <Box sx={{ flex: 1, minWidth: 280 }}>
+          <Box sx={{ position: "relative", flex: 1, minWidth: 280 }}>
+            <QuestionTooltip
+              title="Где Range Picker?"
+              description="Я вирішив не використовувати готовий range picker, бо всі гарні варіанти — платні 💸😭 Тому зробив власну просту реалізацію 🛠️✨"
+              sx={{ position: "absolute", top: "15px", left: "15px" }}
+            />
             <DateCalendar
               value={rangeEnd || rangeStart || selectedDate}
               onChange={onCalendarChange}
@@ -92,11 +101,13 @@ function SchedulerView({
           </Box>
 
           <Box sx={{ flex: 1, minWidth: 280 }}>
-            <Typography sx={{ color: "text.secondary" }}>
-              План такий: обери день початку і день завершення — я підлаштуюсь
-              під твій настрій. Якщо захочеш змінити, просто натисни ще раз і
-              обери інший діапазон. ☀️🌿
-            </Typography>
+            <Stack direction="row" spacing={1} alignItems="flex-start">
+              <Typography sx={{ color: "text.secondary", flex: 1 }}>
+                План такий: обери день початку і день завершення — я підлаштуюсь
+                під твій настрій. Якщо захочеш змінити, просто натисни ще раз і
+                обери інший діапазон. ☀️🌿
+              </Typography>
+            </Stack>
             {rangeSummary ? (
               <Stack
                 direction="row"
