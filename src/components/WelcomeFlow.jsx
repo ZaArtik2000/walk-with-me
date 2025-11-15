@@ -1,5 +1,19 @@
 import { useState } from "react";
-import { Paper, Stack, Button, Typography, Fade, Box } from "@mui/material";
+import {
+  Paper,
+  Stack,
+  Button,
+  Typography,
+  Fade,
+  Box,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  FormControl,
+} from "@mui/material";
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import InfoIcon from "@mui/icons-material/Info";
+import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import { QuestionTooltip } from "./QuestionTooltip";
 
 function StepContainer({ children }) {
@@ -29,6 +43,7 @@ function StepContainer({ children }) {
 
 function WelcomeFlow({ onComplete }) {
   const [step, setStep] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const next = () => setStep((s) => Math.min(s + 1, 2));
 
@@ -53,9 +68,16 @@ function WelcomeFlow({ onComplete }) {
               fontSize: { xs: 32, sm: 40 },
               color: "text.primary",
               lineHeight: 1.2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1.5,
             }}
           >
-            👋 Привіт Мілан!
+            Привіт Мілан!
+            <WavingHandIcon
+              sx={{ fontSize: { xs: 32, sm: 40 }, color: "primary.main" }}
+            />
           </Typography>
           <Typography sx={{ mt: 2, color: "text.secondary" }}>
             Це маленький міні-додаток, який допоможе дізнатись одну важливу річ…
@@ -91,9 +113,16 @@ function WelcomeFlow({ onComplete }) {
               fontSize: { xs: 28, sm: 36 },
               color: "text.primary",
               lineHeight: 1.2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1.5,
             }}
           >
-            🤔 Маленьке уточнення…
+            Маленьке уточнення…
+            <InfoIcon
+              sx={{ fontSize: { xs: 28, sm: 36 }, color: "primary.main" }}
+            />
           </Typography>
           <Typography sx={{ mt: 2, color: "text.secondary" }}>
             Обіцяю: тут немає реклами, платної підписки чи тарифів 🤗
@@ -134,49 +163,113 @@ function WelcomeFlow({ onComplete }) {
           >
             Як ти ставишся до спонтанних прогулянок у приємній компанії ?
             <QuestionTooltip
-              title="Шо по шрифту?"
-              description="Цей шрифт тут наче гувно 🤔, але міняти його на інший ніби теж не варіант 🤷‍♂️"
+              title="Що по шрифту?"
+              description="Цей шрифт тут такий собі канешн 🤔, але міняти його на інший ніби теж не варіант 🤷‍♂️"
               sx={{ display: "inline-block", verticalAlign: "middle" }}
             />
           </Typography>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={2}
-            sx={{ mt: 4 }}
-            justifyContent="center"
-          >
-            <Button
-              size="large"
-              variant="contained"
-              onClick={onComplete}
+          <FormControl component="fieldset" sx={{ mt: 4, width: "100%" }}>
+            <RadioGroup
+              value={selectedOption}
+              onChange={(e) => setSelectedOption(e.target.value)}
               sx={{
-                px: 3,
-                py: 1.25,
-                textTransform: "none",
-                fontWeight: 700,
-                boxShadow:
-                  "0 6px 14px rgba(25, 118, 210, 0.2), 0 10px 32px rgba(25, 118, 210, 0.16)",
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 2,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              Звучить цікаво
-            </Button>
-            <Button
-              size="large"
-              variant="outlined"
-              color="inherit"
-              onClick={onComplete}
-              sx={{
-                px: 3,
-                py: 1.25,
-                textTransform: "none",
-                border: "1px solid rgba(0,0,0,0.12)",
-                bgcolor: "common.white",
-                color: "text.primary",
-              }}
+              <FormControlLabel
+                value="sounds-interesting"
+                control={
+                  <Radio
+                    sx={{
+                      "&.Mui-checked": {
+                        color: "primary.main",
+                      },
+                    }}
+                  />
+                }
+                label="Звучить цікаво"
+                sx={{
+                  m: 0,
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2,
+                  border: "2px solid",
+                  borderColor:
+                    selectedOption === "sounds-interesting"
+                      ? "primary.main"
+                      : "rgba(0,0,0,0.12)",
+                  bgcolor:
+                    selectedOption === "sounds-interesting"
+                      ? "rgba(25, 118, 210, 0.04)"
+                      : "transparent",
+                  "&:hover": {
+                    borderColor: "primary.main",
+                    bgcolor: "rgba(25, 118, 210, 0.04)",
+                  },
+                  transition: "all 0.2s ease-in-out",
+                }}
+              />
+              <FormControlLabel
+                value="love-walks"
+                control={
+                  <Radio
+                    sx={{
+                      "&.Mui-checked": {
+                        color: "primary.main",
+                      },
+                    }}
+                  />
+                }
+                label="Люблю прогулянки"
+                sx={{
+                  m: 0,
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2,
+                  border: "2px solid",
+                  borderColor:
+                    selectedOption === "love-walks"
+                      ? "primary.main"
+                      : "rgba(0,0,0,0.12)",
+                  bgcolor:
+                    selectedOption === "love-walks"
+                      ? "rgba(25, 118, 210, 0.04)"
+                      : "transparent",
+                  "&:hover": {
+                    borderColor: "primary.main",
+                    bgcolor: "rgba(25, 118, 210, 0.04)",
+                  },
+                  transition: "all 0.2s ease-in-out",
+                }}
+              />
+            </RadioGroup>
+          </FormControl>
+          {selectedOption && (
+            <Stack
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+              sx={{ mt: 4 }}
             >
-              Люблю прогулянки
-            </Button>
-          </Stack>
+              <Button
+                size="large"
+                variant="contained"
+                onClick={onComplete}
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 700,
+                  boxShadow:
+                    "0 6px 14px rgba(25, 118, 210, 0.2), 0 10px 32px rgba(25, 118, 210, 0.16)",
+                }}
+              >
+                Далі
+              </Button>
+            </Stack>
+          )}
         </StepContainer>
       ) : null}
     </Box>
