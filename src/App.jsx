@@ -1,16 +1,42 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 import { isBefore } from "date-fns";
 import InviteCard from "./components/InviteCard";
 import SchedulerView from "./components/SchedulerView";
+import GlobalLoader from "./components/GlobalLoader";
+import WelcomeFlow from "./components/WelcomeFlow";
 import "./App.css";
 
 function App() {
+  // Boot/init state
+  const [isBootLoading, setIsBootLoading] = useState(true);
+  const [isActivated, setIsActivated] = useState(null); // null | boolean
+  const [welcomeDone, setWelcomeDone] = useState(false);
   const [view, setView] = useState("invite"); // 'invite' | 'schedule'
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [confirmed, setConfirmed] = useState(false);
   const [rangeStart, setRangeStart] = useState(null);
   const [rangeEnd, setRangeEnd] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    // Placeholder for real API request:
+    // Example using a custom client:
+    // api.get("/me/activation-status").then(({ isActivated }) => { ... })
+    // Example using React Query:
+    // const { data, isLoading } = useApiQuery({ key: 'activation', url: '/me/activation-status' })
+    const timer = setTimeout(() => {
+      if (!mounted) return;
+      // Simulated response:
+      const response = { isActivated: false };
+      setIsActivated(response.isActivated);
+      setIsBootLoading(false);
+    }, 1200);
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+    };
+  }, []);
 
   const handleCalendarChange = (newValue) => {
     console.log("===newValue", newValue);
@@ -54,7 +80,11 @@ function App() {
 
   return (
     <Box sx={{}}>
-      {view === "invite" ? (
+      {isBootLoading ? (
+        <GlobalLoader />
+      ) : isActivated === false && !welcomeDone ? (
+        <WelcomeFlow onComplete={() => setWelcomeDone(true)} />
+      ) : view === "invite" ? (
         <InviteCard onProceed={() => setView("schedule")} />
       ) : (
         <SchedulerView
