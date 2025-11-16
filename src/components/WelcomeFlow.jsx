@@ -80,7 +80,7 @@ function WelcomeFlow({ onComplete }) {
             />
           </Typography>
           <Typography sx={{ mt: 2, color: "text.secondary" }}>
-            Це маленький міні-додаток, який допоможе дізнатись одну важливу річ…
+            Це міні-додаток, який допоможе дізнатись одну важливу річ…
           </Typography>
           <Stack
             direction="row"

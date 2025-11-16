@@ -88,10 +88,8 @@ function InviteCard({ onProceed }) {
     resetTimerRef.current = setTimeout(() => {
       setNoShift({ x: 0, y: 0 });
       resetTimerRef.current = null;
-    }, 2000);
+    }, 1000);
   };
-
-  console.log("===noShift", noShift);
 
   useEffect(() => {
     return () => {
