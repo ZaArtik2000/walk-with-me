@@ -6,6 +6,7 @@ function InviteCard({ onProceed }) {
   const [noShift, setNoShift] = useState({ x: 0, y: 0 });
   const paperRef = useRef(null);
   const noBtnRef = useRef(null);
+  const firstNoBtnRectRef = useRef(null);
   const resetTimerRef = useRef(null);
 
   const moveNoButtonAway = () => {
@@ -13,13 +14,16 @@ function InviteCard({ onProceed }) {
       clearTimeout(resetTimerRef.current);
       resetTimerRef.current = null;
     }
+    if (!firstNoBtnRectRef.current) {
+      firstNoBtnRectRef.current = noBtnRef.current.getBoundingClientRect();
+    }
     const paper = paperRef.current;
     const btn = noBtnRef.current;
     if (!paper || !btn) return;
     const paperRect = paper.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const vw = window.innerWidth - firstNoBtnRectRef.current.left;
+    const vh = window.innerHeight - firstNoBtnRectRef.current.top;
     const margin = 24;
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -86,6 +90,8 @@ function InviteCard({ onProceed }) {
       resetTimerRef.current = null;
     }, 2000);
   };
+
+  console.log("===noShift", noShift);
 
   useEffect(() => {
     return () => {

@@ -74,7 +74,7 @@ function WelcomeFlow({ onComplete }) {
               gap: 1.5,
             }}
           >
-            Привіт Мілан!
+            Привіт Мілана!
             <WavingHandIcon
               sx={{ fontSize: { xs: 32, sm: 40 }, color: "primary.main" }}
             />
